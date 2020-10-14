@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gin</title>
+        <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <!--包含common/header.tmpl模板-->
+        <!--{{template "header.tmpl"}}-->
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12 text-center">
+                    <h3>
+                        Hello {{ .name }}
+                    </h3>
+                    {{ .time }}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
