@@ -39,18 +39,18 @@ go run main.go -t [web,cron,rps,all]
 
 ### 功能组件 
 
-[ x ] 缓存
+- [x] 缓存
 
-[x] 事件
+- [x] 事件
 
-[x] 邮件
+- [x] 邮件
 
-[x] GORM
+- [x] GORM
 
-[x] Redis
+- [x] Redis
 
-[x] 中间件(限流，header，pageCache，RequestId) 
+- [x] 中间件(限流，header，pageCache，RequestId) 
 
-[x] Cron
+- [x] Cron
 
-[ ] JWT
+- [ ] JWT
