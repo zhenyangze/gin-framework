@@ -3,9 +3,10 @@ module gitee.com/zhenyangze/gin-framework
 go 1.13
 
 require (
+	github.com/appleboy/gin-jwt/v2 v2.6.4
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
 	github.com/aviddiviner/gin-limit v0.0.0-20170918012823-43b5f79762c1
-	github.com/gin-gonic/gin v1.4.0
+	github.com/gin-gonic/gin v1.6.3
 	github.com/go-redis/redis v6.15.5+incompatible
 	github.com/google/go-cmp v0.5.1 // indirect
 	github.com/google/uuid v1.1.1
@@ -25,5 +26,7 @@ require (
 	go.uber.org/automaxprocs v1.3.0
 	golang.org/x/sys v0.0.0-20200928205150-006507a75852 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )

@@ -30,6 +30,18 @@ func Web(router *gin.Engine) {
 		v1.GET("/redis", controllers.RedisHandle)
 	}
 
+	// auth
+	authMiddleware := middleware.AuthMiddleware
+
+	router.POST("/login", authMiddleware.LoginHandler)
+	auth := router.Group("/auth")
+	// Refresh time can be longer than token timeout
+	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
+	auth.Use(authMiddleware.MiddlewareFunc())
+	{
+		auth.GET("/hello", controllers.UsersHandler)
+	}
+
 	router.GET("/my", controllers.MyHandle)
 
 	//websocket
