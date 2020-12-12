@@ -2,7 +2,7 @@
 
 ### 启动方式
 ```golang
-go run main.go -t [web,cron,rps,all]
+go run main.go -t [web,cron,rpc,all]
 ```
 
 ### 目录说明
