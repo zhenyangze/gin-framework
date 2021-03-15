@@ -4,6 +4,7 @@ package boot
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"runtime"
 
@@ -41,6 +42,11 @@ func Run() {
 	if d {
 		gin.SetMode(gin.DebugMode)
 	} else {
+		logfile, err := os.Create("/tmp/go_demo.log")
+		if err != nil {
+			fmt.Println("Could not create log file")
+		}
+		gin.DefaultWriter = io.MultiWriter(logfile)
 		gin.SetMode(gin.ReleaseMode)
 	}
 
