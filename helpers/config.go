@@ -2,7 +2,6 @@
 package helpers
 
 import (
-	"fmt"
 	"strings"
 	"sync"
 	"time"
@@ -33,9 +32,9 @@ func init() {
 			config := viper.New()
 			config.AddConfigPath(configPath)
 			// 支持多个配置文件,指定目录
-			config.SetConfigFile(v)
+			config.SetConfigFile(configPath + "/" + v)
 			config.SetConfigType("toml")
-
+			config.ReadInConfig()
 			configList[strings.TrimRight(Basename(v), Ext(v))] = config
 		}
 
@@ -64,8 +63,6 @@ func (c *Config) Get(keyname string) interface{} {
 // getstring
 func (c *Config) GetString(keyname string) string {
 	fileName, realKeyName := getOriginKey(keyname)
-	fmt.Println(fileName, realKeyName)
-	fmt.Println(getViper(fileName))
 	return getViper(fileName).GetString(realKeyName)
 }
 
