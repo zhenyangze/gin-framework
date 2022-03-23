@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"time"
 
+	"gitee.com/zhenyangze/gin-framework/configs"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"gitee.com/zhenyangze/gin-framework/configs"
 )
 
 var (

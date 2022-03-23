@@ -6,7 +6,7 @@ import (
 	"gitee.com/zhenyangze/gin-framework/app/http/controllers"
 	"gitee.com/zhenyangze/gin-framework/app/http/middleware"
 	"gitee.com/zhenyangze/gin-framework/app/http/middleware/persistence"
-	"github.com/aviddiviner/gin-limit"
+	limit "github.com/aviddiviner/gin-limit"
 	"github.com/gin-gonic/gin"
 	_ "go.uber.org/automaxprocs"
 )
@@ -43,6 +43,7 @@ func Web(router *gin.Engine) {
 	}
 
 	router.GET("/my", controllers.MyHandle)
+	router.GET("/", controllers.MyHandle)
 
 	//websocket
 	router.GET("/ws", controllers.WebSocketHandle)
