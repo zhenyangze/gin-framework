@@ -16,6 +16,7 @@ func GetLoggerConfig() map[string]interface{} {
 	}
 	loggerConfig["level"] = logrus.DebugLevel
 	loggerConfig["type"] = 0
+	loggerConfig["log_name"] = "system"
 
 	return loggerConfig
 }

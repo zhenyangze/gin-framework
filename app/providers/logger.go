@@ -20,7 +20,7 @@ func Logger() *logrus.Logger {
 	if err := os.MkdirAll(logFilePath, 0777); err != nil {
 		fmt.Println(err.Error())
 	}
-	logFileName := "system"
+	logFileName := logConfig["log_name"].(string)
 	//日志文件
 	fileName := path.Join(logFilePath, logFileName)
 	if _, err := os.Stat(fileName); err != nil {
@@ -29,7 +29,7 @@ func Logger() *logrus.Logger {
 		}
 	}
 	//写入文件
-	_, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	if err != nil {
 		fmt.Println("err", err)
 	}
@@ -38,7 +38,7 @@ func Logger() *logrus.Logger {
 	logger := logrus.New()
 
 	//设置输出
-	//logger.Out = src
+	logger.Out = src
 
 	//设置日志级别
 	logger.SetLevel(logrus.DebugLevel)
