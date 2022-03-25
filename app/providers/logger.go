@@ -14,12 +14,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var (
-	Logger    *logrus.Logger
-	logWriter *rotatelogs.RotateLogs
-)
-
-func LoggerHandler() gin.HandlerFunc {
+func Logger() *logrus.Logger {
 	logConfig := configs.GetLoggerConfig()
 	logFilePath := logConfig["path"].(string)
 	if err := os.MkdirAll(logFilePath, 0777); err != nil {
@@ -34,22 +29,22 @@ func LoggerHandler() gin.HandlerFunc {
 		}
 	}
 	//写入文件
-	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	_, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	if err != nil {
 		fmt.Println("err", err)
 	}
 
 	//实例化
-	Logger := logrus.New()
+	logger := logrus.New()
 
 	//设置输出
-	Logger.Out = src
+	//logger.Out = src
 
 	//设置日志级别
-	Logger.SetLevel(logrus.DebugLevel)
+	logger.SetLevel(logrus.DebugLevel)
 
 	//设置日志格式
-	/*Logger.SetFormatter(&logrus.TextFormatter{
+	/*logger.SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	})*/
 
@@ -77,10 +72,15 @@ func LoggerHandler() gin.HandlerFunc {
 		logrus.PanicLevel: logWriter,
 	}
 
-	Logger.AddHook(lfshook.NewHook(writeMap, &logrus.JSONFormatter{
+	logger.AddHook(lfshook.NewHook(writeMap, &logrus.JSONFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	}))
 
+	return logger
+}
+
+func LoggerHandler() gin.HandlerFunc {
+	logger := Logger()
 	return func(c *gin.Context) {
 		//开始时间
 		startTime := time.Now()
@@ -100,7 +100,7 @@ func LoggerHandler() gin.HandlerFunc {
 		clientIP := c.ClientIP()
 
 		// 日志格式
-		Logger.WithFields(logrus.Fields{
+		logger.WithFields(logrus.Fields{
 			"status_code":  statusCode,
 			"latency_time": latencyTime,
 			"client_ip":    clientIP,
