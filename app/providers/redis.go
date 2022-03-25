@@ -2,8 +2,8 @@
 package providers
 
 import (
-	"github.com/go-redis/redis"
 	"gitee.com/zhenyangze/gin-framework/configs"
+	"github.com/go-redis/redis"
 )
 
 var (

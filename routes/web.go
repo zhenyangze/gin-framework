@@ -28,6 +28,7 @@ func Web(router *gin.Engine) {
 		v1.GET("/ormcache", controllers.OrmWithCacheHandle)
 		v1.GET("/orm", controllers.OrmHandle)
 		v1.GET("/redis", controllers.RedisHandle)
+		v1.GET("/md5/:str", controllers.Md5Handle)
 	}
 
 	// auth

@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	"time"
@@ -28,6 +30,13 @@ func ViewHandle(c *gin.Context) {
 		"time": time.Now(),
 		"name": c.DefaultQuery("name", "Gin"),
 	})
+}
+
+func Md5Handle(c *gin.Context) {
+	h := md5.New()
+	str := c.Param("str")
+	h.Write([]byte(str))
+	c.JSON(200, hex.EncodeToString(h.Sum(nil)))
 }
 
 /**
