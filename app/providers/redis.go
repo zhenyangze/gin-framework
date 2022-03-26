@@ -10,7 +10,7 @@ var (
 	Redis *redis.Client
 )
 
-func init() {
+func InitRedis() {
 	redisConfig := configs.GetRedisConfig()
 	Redis = redis.NewClient(&redis.Options{
 		Addr:     redisConfig["Addr"].(string),

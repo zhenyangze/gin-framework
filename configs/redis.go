@@ -1,12 +1,15 @@
 // Package configs provides ...
 package configs
 
+import "gitee.com/zhenyangze/gin-framework/helpers"
+
 func GetRedisConfig() map[string]interface{} {
 	redisConfig := make(map[string]interface{})
+	var config *helpers.Config
 
-	redisConfig["Addr"] = "127.0.0.1:6379"
-	redisConfig["Password"] = ""
-	redisConfig["DB"] = 0
+	redisConfig["Addr"] = config.GetString("redis.addr")
+	redisConfig["Password"] = config.GetString("redis.password")
+	redisConfig["DB"] = config.GetInt("redis.db")
 
 	return redisConfig
 }

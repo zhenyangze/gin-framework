@@ -18,12 +18,12 @@ type Config struct {
 	configList map[string]*viper.Viper
 }
 
-func init() {
+func LoadConfig() {
 	configOne.Do(func() {
 		if configList == nil {
 			configList = make(map[string]*viper.Viper)
 		}
-		configPath := "configs"
+		configPath := GetConfigPath()
 		fileList, err := Glob(configPath+"/*.toml", true)
 		if err != nil {
 			return
@@ -49,8 +49,14 @@ func getViper(keyname string) *viper.Viper {
 
 func getOriginKey(keyname string) (fileName string, realKeyName string) {
 	fileName = strings.Split(keyname, ".")[0]
-	realKeyName = strings.TrimLeft(keyname, fileName)
-	realKeyName = strings.Trim(realKeyName, ".")
+	if _, ok := configList[fileName]; !ok {
+		fileName = "app"
+		realKeyName = keyname
+	} else {
+		realKeyName = strings.TrimLeft(keyname, fileName)
+		realKeyName = strings.Trim(realKeyName, ".")
+	}
+
 	return
 }
 

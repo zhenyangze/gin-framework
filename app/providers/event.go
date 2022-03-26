@@ -7,6 +7,6 @@ var (
 	Event EventBus.Bus
 )
 
-func init() {
+func InitEvent() {
 	Event = EventBus.New()
 }

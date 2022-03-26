@@ -8,7 +8,7 @@ import (
 	"runtime"
 
 	"gitee.com/zhenyangze/gin-framework/app/providers"
-	_ "gitee.com/zhenyangze/gin-framework/app/providers"
+	"gitee.com/zhenyangze/gin-framework/helpers"
 	"gitee.com/zhenyangze/gin-framework/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/json-iterator/go/extra"
@@ -19,6 +19,7 @@ var (
 	t string
 	p string
 	d bool
+	c string
 )
 
 func init() {
@@ -27,6 +28,7 @@ func init() {
 	flag.StringVar(&t, "t", "web", "Run Type[web,cron,rps,all]")
 	flag.StringVar(&p, "p", ":8080", "Port")
 	flag.BoolVar(&d, "d", false, "Debug")
+	flag.StringVar(&c, "c", "configs", "Config Path")
 }
 
 func Run() {
@@ -35,6 +37,13 @@ func Run() {
 	if h {
 		usage()
 		return
+	}
+
+	if dirs, err := os.Getwd(); err == nil {
+		helpers.SetAppPath(dirs)
+		helpers.SetConfigPath(c)
+	} else {
+		panic("cant get the app root")
 	}
 
 	// 加载配置
@@ -46,6 +55,10 @@ func Run() {
 	}
 
 	// 初始化
+	helpers.LoadConfig()
+	providers.InitDb()
+	providers.InitEvent()
+	providers.InitRedis()
 	InitEvent()
 
 	router := gin.New()

@@ -15,7 +15,7 @@ var (
 	err error
 )
 
-func init() {
+func InitDb() {
 	dbConfigs := configs.GetDBConfig()
 	DB, err = gorm.Open("mysql", configs.GetDbDSN())
 	if err != nil {
