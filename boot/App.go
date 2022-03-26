@@ -4,11 +4,11 @@ package boot
 import (
 	"flag"
 	"fmt"
-	"io"
 	"os"
 	"runtime"
 
 	"gitee.com/zhenyangze/gin-framework/app/providers"
+	_ "gitee.com/zhenyangze/gin-framework/app/providers"
 	"gitee.com/zhenyangze/gin-framework/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/json-iterator/go/extra"
@@ -42,11 +42,6 @@ func Run() {
 	if d {
 		gin.SetMode(gin.DebugMode)
 	} else {
-		logfile, err := os.Create("/tmp/go_demo.log")
-		if err != nil {
-			fmt.Println("Could not create log file")
-		}
-		gin.DefaultWriter = io.MultiWriter(logfile)
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -54,7 +49,8 @@ func Run() {
 	InitEvent()
 
 	router := gin.New()
-	router.Use(gin.Logger())
+	//router.Use(gin.Logger())
+	router.Use(providers.LoggerHandler())
 	router.Use(gin.Recovery())
 	// 添加反射，获取
 	switch t {
