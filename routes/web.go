@@ -18,7 +18,7 @@ func Web(router *gin.Engine) {
 
 	// 加载模板文件
 	router.LoadHTMLGlob("resources/views/**/*")
-	v1 := router.Group("/v1", middleware.Logger(), limit.MaxAllowed(20))
+	v1 := router.Group("/v1", limit.MaxAllowed(20))
 	{
 		v1.GET("/test", controllers.TestHandle)
 		v1.GET("/view/:name/*action", controllers.ViewHandle)
