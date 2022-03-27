@@ -1,8 +1,10 @@
 package helpers
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
@@ -31,4 +33,131 @@ func StructToMap(obj interface{}) map[string]interface{} {
 
 func ArrayToString(array []interface{}) string {
 	return strings.Replace(strings.Trim(fmt.Sprint(array), "[]"), " ", ",", -1)
+}
+
+// ValueInterfaceToString interface转string，非map[string]interface{}
+func ValueInterfaceToString(value interface{}) string {
+	var key string
+	if value == nil {
+		return key
+	}
+
+	switch value.(type) {
+	case float64:
+		ft := value.(float64)
+		key = strconv.FormatFloat(ft, 'f', -1, 64)
+	case float32:
+		ft := value.(float32)
+		key = strconv.FormatFloat(float64(ft), 'f', -1, 64)
+	case int:
+		it := value.(int)
+		key = strconv.Itoa(it)
+	case uint:
+		it := value.(uint)
+		key = strconv.Itoa(int(it))
+	case int8:
+		it := value.(int8)
+		key = strconv.Itoa(int(it))
+	case uint8:
+		it := value.(uint8)
+		key = strconv.Itoa(int(it))
+	case int16:
+		it := value.(int16)
+		key = strconv.Itoa(int(it))
+	case uint16:
+		it := value.(uint16)
+		key = strconv.Itoa(int(it))
+	case int32:
+		it := value.(int32)
+		key = strconv.Itoa(int(it))
+	case uint32:
+		it := value.(uint32)
+		key = strconv.Itoa(int(it))
+	case int64:
+		it := value.(int64)
+		key = strconv.FormatInt(it, 10)
+	case uint64:
+		it := value.(uint64)
+		key = strconv.FormatUint(it, 10)
+	case string:
+		key = value.(string)
+	case []byte:
+		key = string(value.([]byte))
+	default:
+		newValue, _ := json.Marshal(value)
+		key = string(newValue)
+	}
+
+	return key
+}
+
+// ValueInterfaceToInt interface转int，map[string]interface{}
+func ValueInterfaceToInt(_value interface{}) int64 {
+	return StringToInt(ValueInterfaceToString(_value))
+}
+
+// MapInterfaceToString interface转string，针对map[string]interface{}的某个键
+func MapInterfaceToString(_map map[string]interface{}, _key string) string {
+	value := _map[_key].(string)
+	return value
+}
+
+// ArrayInterfaceToString interface转string，准对一维数组[]string{}或[]int{}
+func ArrayInterfaceToString(_array interface{}) string {
+	value := fmt.Sprintf("%v", _array)
+	return value
+}
+
+// StringToInt string转int
+func StringToInt(_str string) int64 {
+	_int, err := strconv.ParseInt(_str, 10, 64) // string转int
+	if err != nil {                             // 报错则默认返回0
+		_int = 0
+		//fmt.Println("格式转换错误，默认为0。")
+		//fmt.Println(err)
+	}
+	return _int
+}
+
+// IntToString int转string
+func IntToString(_int int64) string {
+	_str := strconv.FormatInt(_int, 10)
+	return _str
+}
+
+// StringToFloat string转float
+func StringToFloat(_str string) float64 {
+	_float, err := strconv.ParseFloat(_str, 64) // string转int
+	if err != nil {                             // 报错则默认返回0
+		_float = 0.0
+		//fmt.Println("格式转换错误，默认为0。")
+		//fmt.Println(err)
+	}
+	return _float
+}
+
+// FloatToString float转string
+func FloatToString(_float float64) string {
+	_str := strconv.FormatFloat(_float, 'e', 10, 64)
+	return _str
+}
+
+func MapInterfaceToJson(_map map[string]interface{}) []byte {
+	_json, _ := json.Marshal(_map)
+	return _json
+}
+
+func InterfaceToString(_array interface{}) string {
+	key := ArrayInterfaceToString(_array)
+	key = EncodeURL(key)
+	return key
+}
+
+func JsonStringToMap(_string string) map[string]interface{} {
+	var data map[string]interface{}
+	err := json.Unmarshal([]byte(_string), &data)
+	if err == nil {
+		fmt.Println(data)
+	}
+	return data
 }

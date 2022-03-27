@@ -18,9 +18,6 @@ import (
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 func MyHandle(c *gin.Context) {
-	/*providers.Logger().WithFields(logrus.Fields{
-		"name": "hanyun",
-	}).Info()*/
 	c.String(200, "works!")
 }
 
