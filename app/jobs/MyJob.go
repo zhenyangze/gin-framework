@@ -1,9 +1,11 @@
 package jobs
 
 import (
-	"fmt"
+	"log"
+
+	"gitee.com/zhenyangze/gin-framework/helpers"
 )
 
 func MyJob() {
-	fmt.Printf("test")
+	log.Println(helpers.GetCurrentDate())
 }
