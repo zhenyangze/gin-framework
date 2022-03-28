@@ -28,6 +28,7 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/speps/go-hashids v1.0.0 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/vmihailenco/msgpack v4.0.4+incompatible
