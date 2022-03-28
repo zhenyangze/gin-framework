@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"unsafe"
 )
 
 //@author: [piexlmax](https://github.com/piexlmax)
@@ -123,6 +124,35 @@ func StringToInt(_str string) int64 {
 func IntToString(_int int64) string {
 	_str := strconv.FormatInt(_int, 10)
 	return _str
+}
+
+func ByteToString(_byte []byte) string {
+	return string(_byte)
+}
+
+func StringToByte(_str string) []byte {
+	return []byte(_str)
+}
+
+func ByteToStringFast(_byte []byte) string {
+	return *(*string)(unsafe.Pointer(&_byte))
+}
+
+func StringToByteFast(_str string) (_byte []byte) {
+	ss := (*reflect.StringHeader)(unsafe.Pointer(&_str))
+	bs := (*reflect.SliceHeader)(unsafe.Pointer(&_byte))
+	bs.Data = ss.Data
+	bs.Len = ss.Len
+	bs.Cap = ss.Len
+	return _byte
+}
+
+func Int32ToInt64(_int int32) int64 {
+	return int64(_int)
+}
+
+func Int64ToInt32(_int int64) int32 {
+	return int32(_int)
 }
 
 // StringToFloat string转float
