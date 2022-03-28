@@ -4,7 +4,7 @@ package middleware
 import (
 	"time"
 
-	"gitee.com/zhenyangze/gin-framework/app/http/requests"
+	"gitee.com/zhenyangze/gin-framework/app/middleware/requests"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 )

@@ -1,5 +1,5 @@
 // Package controllers provides ...
-package controllers
+package bases
 
 import (
 	"net/http"

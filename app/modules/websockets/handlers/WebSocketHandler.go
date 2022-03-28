@@ -1,12 +1,12 @@
-// Package controllers provides ...
-package controllers
+package handlers
 
 import (
+	"gitee.com/zhenyangze/gin-framework/app/bases"
 	"github.com/gin-gonic/gin"
 )
 
 type MyWebSocket struct {
-	BaseWebsocket
+	bases.BaseWebsocket
 }
 
 func (this *MyWebSocket) OnMessage(messageType int, data []byte) []byte {

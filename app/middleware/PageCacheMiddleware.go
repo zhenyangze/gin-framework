@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"gitee.com/zhenyangze/gin-framework/app/http/middleware/persistence"
+	"gitee.com/zhenyangze/gin-framework/app/middleware/persistence"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vmihailenco/msgpack"

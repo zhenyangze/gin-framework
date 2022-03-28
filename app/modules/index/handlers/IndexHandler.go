@@ -1,14 +1,13 @@
-package controllers
+package handlers
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"fmt"
 	"net/http"
 	"time"
 
+	"gitee.com/zhenyangze/gin-framework/app/bases"
 	model "gitee.com/zhenyangze/gin-framework/app/models"
 	"gitee.com/zhenyangze/gin-framework/app/providers"
+	"gitee.com/zhenyangze/gin-framework/helpers"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 	jsoniter "github.com/json-iterator/go"
@@ -22,7 +21,7 @@ func MyHandle(c *gin.Context) {
 }
 
 func TestHandle(c *gin.Context) {
-	c.JSON(200, Json(200, "success", gin.H{}))
+	c.JSON(200, bases.Json(200, "success", gin.H{}))
 }
 
 func ViewHandle(c *gin.Context) {
@@ -33,10 +32,8 @@ func ViewHandle(c *gin.Context) {
 }
 
 func Md5Handle(c *gin.Context) {
-	h := md5.New()
 	str := c.Param("str")
-	h.Write([]byte(str))
-	c.JSON(200, hex.EncodeToString(h.Sum(nil)))
+	c.JSON(http.StatusOK, bases.JsonOk("获取成功", helpers.Md5([]byte(str))))
 }
 
 /**
@@ -56,12 +53,10 @@ func ValidHandle(c *gin.Context) {
 	var userinfo UserInfo
 	err := c.ShouldBind(&userinfo)
 	if err != nil {
-		fmt.Printf("error")
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, bases.JsonError(err.Error(), nil))
 		return
 	}
 
-	fmt.Printf("ok")
 	c.JSON(http.StatusOK, userinfo)
 }
 func OrmHandle(c *gin.Context) {
@@ -100,9 +95,11 @@ func OrmWithCacheHandle(c *gin.Context) {
 }
 
 func RedisHandle(c *gin.Context) {
-	str := "123"
-	providers.Redis.Set("test_a", str, time.Second*10)
 	str2, _ := providers.Redis.Get("test_a").Result()
+	if str2 == "" {
+		str2 = helpers.RandString(32)
+		providers.Redis.Set("test_a", str2, time.Second*10)
+	}
 
 	providers.Redis.LPush("redis_queue", 1, 2, 3, 4, 5, 6)
 	for {

@@ -27,16 +27,20 @@ air
 ```
 
 ```shell
-[GIN-debug] GET    /v1/test                  --> gitee.com/zhenyangze/gin-framework/app/http/controllers.TestHandle (6 handlers)
-[GIN-debug] GET    /v1/view/:name/*action    --> gitee.com/zhenyangze/gin-framework/app/http/controllers.ViewHandle (6 handlers)
-[GIN-debug] GET    /v1/view                  --> gitee.com/zhenyangze/gin-framework/app/http/controllers.ViewHandle (6 handlers)
-[GIN-debug] POST   /v1/valid                 --> gitee.com/zhenyangze/gin-framework/app/http/controllers.ValidHandle (6 handlers)
-[GIN-debug] GET    /v1/ormmiddle             --> gitee.com/zhenyangze/gin-framework/app/http/middleware.CachePage.func1 (6 handlers)
-[GIN-debug] GET    /v1/ormcache              --> gitee.com/zhenyangze/gin-framework/app/http/controllers.OrmWithCacheHandle (6 handlers)
-[GIN-debug] GET    /v1/orm                   --> gitee.com/zhenyangze/gin-framework/app/http/controllers.OrmHandle (6 handlers)
-[GIN-debug] GET    /v1/redis                 --> gitee.com/zhenyangze/gin-framework/app/http/controllers.RedisHandle (6 handlers)
-[GIN-debug] GET    /my                       --> gitee.com/zhenyangze/gin-framework/app/http/controllers.MyHandle (4 handlers)
-[GIN-debug] GET    /ws                       --> gitee.com/zhenyangze/gin-framework/app/http/controllers.WebSocketHandle (4 handlers)
+[GIN-debug] GET    /v1/test                  --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.TestHandle (5 handlers)
+[GIN-debug] GET    /v1/view/:name/*action    --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.ViewHandle (5 handlers)
+[GIN-debug] GET    /v1/view                  --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.ViewHandle (5 handlers)
+[GIN-debug] POST   /v1/valid                 --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.ValidHandle (5 handlers)
+[GIN-debug] GET    /v1/ormmiddle             --> gitee.com/zhenyangze/gin-framework/app/middleware.CachePage.func1 (5 handlers)
+[GIN-debug] GET    /v1/ormcache              --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.OrmWithCacheHandle (5 handlers)
+[GIN-debug] GET    /v1/orm                   --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.OrmHandle (5 handlers)
+[GIN-debug] GET    /v1/redis                 --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.RedisHandle (5 handlers)
+[GIN-debug] GET    /v1/md5/:str              --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.Md5Handle (5 handlers)
+[GIN-debug] GET    /                         --> gitee.com/zhenyangze/gin-framework/app/modules/index/handlers.MyHandle (4 handlers)
+[GIN-debug] POST   /login                    --> github.com/appleboy/gin-jwt/v2.(*GinJWTMiddleware).LoginHandler-fm (4 handlers)
+[GIN-debug] GET    /auth/refresh_token       --> github.com/appleboy/gin-jwt/v2.(*GinJWTMiddleware).RefreshHandler-fm (4 handlers)
+[GIN-debug] GET    /auth/hello               --> gitee.com/zhenyangze/gin-framework/app/modules/users/handlers.UsersHandler (5 handlers)
+[GIN-debug] GET    /ws                       --> gitee.com/zhenyangze/gin-framework/app/modules/websockets/handlers.WebSocketHandle (4 handlers)
 ```
 
 
