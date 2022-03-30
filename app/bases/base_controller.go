@@ -3,6 +3,9 @@ package bases
 import "github.com/gin-gonic/gin"
 
 func Json(errorCode int64, errorMsg string, data interface{}) gin.H {
+	if data == nil {
+		data = make(map[string]interface{})
+	}
 	return gin.H{
 		"error_code": errorCode,
 		"error_msg":  errorMsg,
