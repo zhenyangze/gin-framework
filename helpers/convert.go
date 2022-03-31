@@ -183,11 +183,14 @@ func InterfaceToString(_array interface{}) string {
 	return key
 }
 
-func JsonStringToMap(_string string) map[string]interface{} {
-	var data map[string]interface{}
-	err := json.Unmarshal([]byte(_string), &data)
-	if err == nil {
-		fmt.Println(data)
+func JsonEncode(v interface{}) string {
+	bytes, err := json.Marshal(v)
+	if err != nil {
+		return ""
 	}
-	return data
+	return string(bytes)
+}
+
+func JsonDecode(_string string, _type interface{}) {
+	json.Unmarshal([]byte(_string), &_type)
 }
