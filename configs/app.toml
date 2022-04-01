@@ -1,12 +1,19 @@
 [databases]
+type = "mysql"
 host = "127.0.0.1"
-port = 3306
+port = "3306"
 username = "root"
 password = "root"
 database = "test"
+debug = false
 
 
 [redis]
 addr = "127.0.0.1:6379"
 db = "1"
 password = ""
+
+[log]
+name = "system"
+path = "/tmp/log"
+level = "debug"

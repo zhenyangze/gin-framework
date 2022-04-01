@@ -38,6 +38,7 @@ func init() {
 }
 
 func Run() {
+	var config *helpers.Config
 	flag.Parse()
 
 	if h {
@@ -107,7 +108,8 @@ func Run() {
 	<-quit
 	log.Println("Shutdown Server ...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	waitTimes := config.GetInt64ByDefault("app.wait_time", 5)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(waitTimes)*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)
@@ -115,7 +117,7 @@ func Run() {
 	// catching ctx.Done(). timeout of 5 seconds.
 	select {
 	case <-ctx.Done():
-		log.Println("timeout of 5 seconds.")
+		log.Printf("timeout of %d seconds.\n", waitTimes)
 	}
 	log.Println("Server exiting")
 }
