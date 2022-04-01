@@ -191,6 +191,7 @@ func JsonEncode(v interface{}) string {
 	return string(bytes)
 }
 
-func JsonDecode(_string string, _type interface{}) {
-	json.Unmarshal([]byte(_string), &_type)
+// 需要判断返回值，否则会出问题
+func JsonDecode(_string string, _type interface{}) error {
+	return json.Unmarshal([]byte(_string), &_type)
 }
