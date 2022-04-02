@@ -18,7 +18,7 @@ func GetDBConfig() map[string]string {
 	dbConfig["DB_USER"] = config.GetString("databases.username")
 	dbConfig["DB_PWD"] = config.GetString("databases.password")
 
-	dbConfig["DB_CHARSET"] = config.GetStringByDefault("databases.charset", "utf8")
+	dbConfig["DB_CHARSET"] = config.GetStringByDefault("databases.charset", "utf8mb4")
 
 	dbConfig["DB_MAX_OPEN_CONNS"] = helpers.IntToString(config.GetInt64ByDefault("databases.max_open_conns", 100))          // 连接池最大连接数
 	dbConfig["DB_MAX_IDLE_CONNS"] = helpers.IntToString(config.GetInt64ByDefault("databases.max_idle_conns", 50))           // 连接池最大空闲数
