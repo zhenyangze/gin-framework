@@ -31,6 +31,7 @@ require (
 	github.com/speps/go-hashids v1.0.0 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.6.1 // indirect
+	github.com/thedevsaddam/gojsonq/v2 v2.5.2 // indirect
 	github.com/vmihailenco/msgpack v4.0.4+incompatible
 	go.uber.org/automaxprocs v1.3.0
 	golang.org/x/sys v0.0.0-20220327210214-530d0810a4d0 // indirect
