@@ -17,13 +17,7 @@ import (
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 func MyHandle(c *gin.Context) {
-	jsonStr := `{"code":200,"data":[{"name":"xiaoming","age":19},{"name":"xiaoming1","age":20}]}`
-	re, err := helpers.JsonFindFromStr(jsonStr, "data.[0].name")
-	if err != nil {
-		panic(err)
-	}
-	name, _ := re.String()
-	c.String(200, name)
+	c.String(200, "works!")
 }
 
 func TestHandle(c *gin.Context) {

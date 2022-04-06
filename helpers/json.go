@@ -7,6 +7,14 @@ func JsonInit() *gojsonq.JSONQ {
 	return gojsonq.New()
 }
 
+func JsonFromStr(jsonStr string) *gojsonq.JSONQ {
+	return JsonInit().FromString(jsonStr)
+}
+
+func JsonFromFile(fileName string) *gojsonq.JSONQ {
+	return JsonInit().File(fileName)
+}
+
 func JsonGetFromStr(jsonStr string) (*gojsonq.Result, error) {
 	return JsonInit().FromString(jsonStr).GetR()
 }
