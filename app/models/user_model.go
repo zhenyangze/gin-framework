@@ -22,6 +22,6 @@ func (user *UserModel) TableName() string {
 }
 
 func (u *UserModel) BeforeUpdate() (err error) {
-	fmt.Printf("[" + u.UpdatedAt.String() + "]触发更新事件")
+	fmt.Println("[" + u.UpdatedAt.String() + "]触发更新事件")
 	return
 }
