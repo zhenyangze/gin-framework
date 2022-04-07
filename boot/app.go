@@ -132,6 +132,9 @@ Options:
 }
 
 func Done() {
+	if h {
+		return
+	}
 	providers.Event.WaitAsync()
 	providers.DB.Close()
 	providers.Redis.Close()
