@@ -2,6 +2,7 @@
 package providers
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
@@ -19,6 +20,7 @@ func InitDb() {
 	dbConfigs := configs.GetDBConfig()
 	DB, err = gorm.Open("mysql", configs.GetDbDSN())
 	if err != nil {
+		fmt.Println(configs.GetDbDSN())
 		panic("连接数据库失败")
 	}
 	//defer DB.Close()
