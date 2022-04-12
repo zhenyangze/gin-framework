@@ -3,13 +3,13 @@ module gitee.com/zhenyangze/gin-framework
 go 1.13
 
 require (
+	github.com/Shopify/sarama v1.32.0
 	github.com/appleboy/gin-jwt/v2 v2.6.4
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
 	github.com/aviddiviner/gin-limit v0.0.0-20170918012823-43b5f79762c1
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-redis/redis v6.15.5+incompatible
-	github.com/google/go-cmp v0.5.1 // indirect
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/websocket v1.4.2
 	github.com/hprose/hprose-golang v2.0.5+incompatible
@@ -28,7 +28,6 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/speps/go-hashids v1.0.0
 	github.com/spf13/viper v1.7.1
-	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/thedevsaddam/gojsonq/v2 v2.5.2
 	github.com/vmihailenco/msgpack v4.0.4+incompatible
 	go.uber.org/automaxprocs v1.3.0

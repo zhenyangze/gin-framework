@@ -37,3 +37,12 @@ func RemoveRepeatedIntArray(array []int) []int {
 	}
 	return newArray
 }
+
+func InArrayString(data []string, item string) bool {
+	for _, v := range data {
+		if v == item {
+			return true
+		}
+	}
+	return false
+}

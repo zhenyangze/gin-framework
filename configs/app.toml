@@ -17,3 +17,6 @@ password = ""
 name = "system"
 path = "/tmp/log"
 level = "debug"
+
+[kafka]
+broker_url = "localhost:9092"
