@@ -1,6 +1,6 @@
 package helpers
 
-import "github.com/jinzhu/gorm"
+import "gorm.io/gorm"
 
 func Paginate(page int, pageSize int) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
