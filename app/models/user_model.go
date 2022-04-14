@@ -4,6 +4,8 @@ package model
 import (
 	"fmt"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type UserModel struct {
@@ -18,10 +20,10 @@ type UserModel struct {
 }
 
 func (user *UserModel) TableName() string {
-	return "goadmin_users"
+	return "users"
 }
 
-func (u *UserModel) BeforeUpdate() (err error) {
+func (u *UserModel) BeforeUpdate(*gorm.DB) error {
 	fmt.Println("[" + u.UpdatedAt.String() + "]触发更新事件")
-	return
+	return nil
 }

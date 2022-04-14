@@ -15,6 +15,7 @@ require (
 	github.com/hprose/hprose-golang v2.0.5+incompatible
 	github.com/jakecoffman/cron v0.0.0-20190106200828-7e2009c226a5
 	github.com/jinzhu/gorm v1.9.16
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.9
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.5 // indirect
@@ -34,4 +35,6 @@ require (
 	golang.org/x/sys v0.0.0-20220327210214-530d0810a4d0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
+	gorm.io/driver/mysql v1.3.3
+	gorm.io/gorm v1.23.4
 )

@@ -136,6 +136,5 @@ func Done() {
 		return
 	}
 	providers.Event.WaitAsync()
-	providers.DB.Close()
 	providers.Redis.Close()
 }
