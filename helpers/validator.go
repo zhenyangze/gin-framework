@@ -1,6 +1,9 @@
 package helpers
 
-import "reflect"
+import (
+	"reflect"
+	"strconv"
+)
 
 // 判断变量是否为空
 func Empty(val interface{}) bool {
@@ -44,4 +47,94 @@ func IsEmpty(params interface{}) bool {
 		flag = false
 	}
 	return flag
+}
+
+// 等价于PHP函数gettype()
+func Gettype(variable interface{}) string {
+	return reflect.TypeOf(variable).Kind().String()
+}
+
+// 等价于PHP函数is_array()
+func IsArray(variable interface{}) bool {
+	var b bool
+	if Gettype(variable) == "array" {
+		b = true
+	}
+	return b
+}
+
+// 等价于PHP函数is_bool
+func IsBool(variable interface{}) bool {
+	var b bool
+	if Gettype(variable) == "bool" {
+		b = true
+	}
+	return b
+}
+
+// 等价于PHP函数is_double
+func IsDouble(variable interface{}) bool {
+	var b bool
+	variableType := Gettype(variable)
+	if variableType == "float64" || variableType == "float32" {
+		b = true
+	}
+	return b
+}
+
+// is_double的别名
+func IsFloat(variable interface{}) bool {
+	return IsDouble(variable)
+}
+
+// 等价于PHP函数is_int
+func IsInt(variable interface{}) bool {
+	var b bool
+	variableType := Gettype(variable)
+	if variableType == "int" || variableType == "uint" || variableType == "uint64" ||
+		variableType == "int64" || variableType == "uint32" || variableType == "int32" ||
+		variableType == "int8" || variableType == "uint8" {
+		b = true
+	}
+	return b
+}
+
+// is_integer是is_int的别名
+func IsInteger(variable interface{}) bool {
+	return IsInt(variable)
+}
+
+// is_long是is_int的别名
+func IsLong(variable interface{}) bool {
+	return IsInt(variable)
+}
+
+// 等价于PHP函数is_string
+func IsString(variable interface{}) bool {
+	var b bool
+	if Gettype(variable) == "string" {
+		b = true
+	}
+	return b
+}
+
+// 等价于PHP函数is_numeric
+func IsNumeric(variable interface{}) bool {
+
+	var b bool
+	if IsInt(variable) || IsFloat(variable) {
+		b = true
+	}
+
+	if IsString(variable) {
+		// 接口转string
+		tmpStr, err := variable.(string)
+		if err {
+			_, err := strconv.Atoi(tmpStr)
+			if err == nil {
+				b = true
+			}
+		}
+	}
+	return b
 }

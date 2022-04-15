@@ -1,6 +1,8 @@
 package helpers
 
-func RemoveRepeatedStringArray(arr []string) (newArr []string) {
+import "math/rand"
+
+func ArrRemoveRepeatedString(arr []string) (newArr []string) {
 	newArr = make([]string, 0)
 	for i := 0; i < len(arr); i++ {
 		repeat := false
@@ -17,8 +19,8 @@ func RemoveRepeatedStringArray(arr []string) (newArr []string) {
 	return
 }
 
-// RemoveRepeatedIntArray Int数组去重
-func RemoveRepeatedIntArray(array []int) []int {
+// ArrRemoveRepeatedInt Int数组去重
+func ArrRemoveRepeatedInt(array []int) []int {
 	newArray := make([]int, 0)
 
 	for _, i := range array {
@@ -38,7 +40,21 @@ func RemoveRepeatedIntArray(array []int) []int {
 	return newArray
 }
 
-func InArrayString(data []string, item string) bool {
+// ArrShuffle 打乱数组(字符串型数组)
+func ArrShuffle(strings []string) string {
+	for i := len(strings) - 1; i > 0; i-- {
+		num := rand.Intn(i + 1)
+		strings[i], strings[num] = strings[num], strings[i]
+	}
+
+	str := ""
+	for i := 0; i < len(strings); i++ {
+		str += strings[i]
+	}
+	return str
+}
+
+func ArrInString(data []string, item string) bool {
 	for _, v := range data {
 		if v == item {
 			return true

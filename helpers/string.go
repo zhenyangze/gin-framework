@@ -2,7 +2,6 @@ package helpers
 
 import (
 	"html"
-	"math/rand"
 	"strings"
 )
 
@@ -28,20 +27,6 @@ func ReplaceRangeString(text string, _start int, _end int, _new string) string {
 		_new = "**"
 	}
 	return text[:_start] + _new + text[_end:]
-}
-
-// ShuffleArray 打乱数组(字符串型数组)
-func ShuffleArray(strings []string) string {
-	for i := len(strings) - 1; i > 0; i-- {
-		num := rand.Intn(i + 1)
-		strings[i], strings[num] = strings[num], strings[i]
-	}
-
-	str := ""
-	for i := 0; i < len(strings); i++ {
-		str += strings[i]
-	}
-	return str
 }
 
 // FilterInput 过滤Input输入的值
@@ -71,7 +56,7 @@ func FilterInput(_value string) string {
 }
 
 // HideStringValue 隐藏/替换字符串中的某些字符
-// 如隐藏手机号：185*******6，调用Common.HideStringValue("18512345506", 3, 10, "*")
+// 如隐藏手机号：185*******6，调用Common.HideStringValue("18511111111", 3, 10, "*")
 func HideStringValue(_string string, start int, end int, replaceValue string) string {
 	if len(replaceValue) == 0 {
 		replaceValue = "*"
@@ -82,4 +67,55 @@ func HideStringValue(_string string, start int, end int, replaceValue string) st
 		replace = replace + replaceValue
 	}
 	return strings.Replace(_string, blackString, replace, -1)
+}
+
+func UcFirst(_string string) string {
+	if len(_string) == 0 {
+		return ""
+	}
+
+	s := []rune(_string)
+	if s[0] >= 97 && s[0] <= 122 {
+		s[0] -= 32
+	}
+	return string(s)
+}
+
+func LcFirst(_string string) string {
+	if len(_string) == 0 {
+		return ""
+	}
+
+	s := []rune(_string)
+	if s[0] >= 65 && s[0] <= 90 {
+		s[0] += 32
+	}
+	return string(s)
+}
+
+func Trim(str, character_mask string) string {
+
+	if character_mask == "" {
+		character_mask = " \r\n\t\x0B"
+	}
+
+	return strings.Trim(str, character_mask)
+}
+
+func Ltrim(str, character_mask string) string {
+
+	if character_mask == "" {
+		character_mask = " \r\n\t\x0B"
+	}
+
+	return strings.TrimLeft(str, character_mask)
+}
+
+func Rtrim(str, character_mask string) string {
+
+	if character_mask == "" {
+		character_mask = " \r\n\t\x0B"
+	}
+
+	return strings.TrimRight(str, character_mask)
 }
