@@ -1,9 +1,12 @@
 package helpers
 
+import jsoniter "github.com/json-iterator/go"
+
 var (
 	APP_PATH    string
 	CONFIG_PATH string
 )
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 func init() {
 }
