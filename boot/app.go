@@ -31,7 +31,7 @@ var (
 func init() {
 	extra.RegisterFuzzyDecoders() // 兼容PHP
 	flag.BoolVar(&h, "h", false, "help")
-	flag.StringVar(&t, "t", "web", "Run Type[web,cron,rps,all]")
+	flag.StringVar(&t, "t", "web", "Run Type[web,cron,rpc,all]")
 	flag.StringVar(&p, "p", ":8080", "Port")
 	flag.BoolVar(&d, "d", false, "Debug")
 	flag.StringVar(&c, "c", "configs", "Config Path")
