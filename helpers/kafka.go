@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"sync"
@@ -8,13 +9,12 @@ import (
 	"github.com/Shopify/sarama"
 )
 
-var wg sync.WaitGroup
-
 type KafkaMessage struct {
 	*sarama.ConsumerMessage
 }
 
 func KafkaConsumer(brokerList []string, topic string, f func(msg *KafkaMessage)) {
+	var wg sync.WaitGroup
 	//创建消费者
 	consumer, err := sarama.NewConsumer(brokerList, nil)
 	if err != nil {
@@ -46,6 +46,64 @@ func KafkaConsumer(brokerList []string, topic string, f func(msg *KafkaMessage))
 			}
 		}(pc)
 	}
+	wg.Wait()
+}
+
+type KafkaGroupMessage struct {
+	name     string
+	callback func(msg *KafkaMessage)
+}
+
+func (KafkaGroupMessage) Setup(_ sarama.ConsumerGroupSession) error   { return nil }
+func (KafkaGroupMessage) Cleanup(_ sarama.ConsumerGroupSession) error { return nil }
+func (msg KafkaGroupMessage) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
+	for message := range claim.Messages() {
+		log.Printf("Message topic:%q partition:%d offset:%d", message.Topic, message.Partition, message.Offset)
+		// 调用自自义方法
+		msg.callback(&KafkaMessage{
+			message,
+		})
+		// 标记完成
+		sess.MarkMessage(message, "")
+	}
+	return nil
+}
+
+func consumerByGroup(wg *sync.WaitGroup, group *sarama.ConsumerGroup, groupId string, topics []string, f func(msg *KafkaMessage)) {
+	defer wg.Done()
+	ctx := context.Background()
+	for {
+		handler := KafkaGroupMessage{callback: f, name: groupId}
+		err := (*group).Consume(ctx, topics, handler)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func KafkaGroupConsumer(brokerList []string, groupId string, topic string, f func(msg *KafkaMessage)) {
+	var wg sync.WaitGroup
+	config := sarama.NewConfig()
+	//config.Version = kfversion
+	config.Version = sarama.V0_10_2_0
+	config.Consumer.Return.Errors = false
+
+	// Start with a client
+	client, err := sarama.NewClient(brokerList, config)
+	if err != nil {
+		log.Println(err)
+	}
+	defer client.Close()
+
+	group, err := sarama.NewConsumerGroupFromClient(groupId, client)
+	if err != nil {
+		log.Println(err)
+	}
+	defer group.Close()
+
+	topics := []string{topic}
+	wg.Add(1)
+	go consumerByGroup(&wg, &group, groupId, topics, f)
 	wg.Wait()
 }
 
