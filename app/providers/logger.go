@@ -2,6 +2,7 @@
 package providers
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"path"
@@ -28,28 +29,36 @@ func Logger() *logrus.Logger {
 			fmt.Println(err.Error())
 		}
 	}
-	//写入文件
-	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-	if err != nil {
-		fmt.Println("err", err)
-	}
 
 	//实例化
 	logger := logrus.New()
 
-	//设置输出
-	logger.Out = src
-
 	//设置日志级别
-	logger.SetLevel(logrus.DebugLevel)
+	switch logConfig["level"] {
+	case "debug":
+		logger.SetLevel(logrus.DebugLevel)
+		logger.SetOutput(os.Stderr)
+	case "info":
+		logger.SetLevel(logrus.InfoLevel)
+		logger.SetOutput(getNull())
+	case "warn":
+		logger.SetLevel(logrus.WarnLevel)
+		logger.SetOutput(getNull())
+	case "error":
+		logger.SetLevel(logrus.ErrorLevel)
+		logger.SetOutput(getNull())
+	default:
+		logger.SetLevel(logrus.InfoLevel)
+		logger.SetOutput(getNull())
+	}
 
 	//设置日志格式
-	/*logger.SetFormatter(&logrus.TextFormatter{
+	/*logger.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	})*/
 
 	// 设置 rotatelogs
-	logWriter, err := rotatelogs.New(
+	logWriter, _ := rotatelogs.New(
 		// 分割后的文件名称
 		fileName+".%Y%m%d.log",
 
@@ -64,6 +73,7 @@ func Logger() *logrus.Logger {
 	)
 
 	writeMap := lfshook.WriterMap{
+		logrus.TraceLevel: logWriter,
 		logrus.InfoLevel:  logWriter,
 		logrus.FatalLevel: logWriter,
 		logrus.DebugLevel: logWriter,
@@ -77,6 +87,15 @@ func Logger() *logrus.Logger {
 	}))
 
 	return logger
+}
+
+func getNull() *bufio.Writer {
+	src, err := os.OpenFile(os.DevNull, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	if err != nil {
+		fmt.Println("err", err)
+	}
+	writer := bufio.NewWriter(src)
+	return writer
 }
 
 func LoggerHandler() gin.HandlerFunc {
