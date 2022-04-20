@@ -129,10 +129,10 @@ func LoggerHandler() gin.HandlerFunc {
 	}
 }
 
-func Info(text string) {
-	Logger().Info(text)
+func Info(args ...interface{}) {
+	Logger().Info(args)
 }
 
-func Error(text string) {
-	Logger().Error(text)
+func Error(args ...interface{}) {
+	Logger().Error(args)
 }
