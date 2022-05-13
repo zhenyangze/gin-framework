@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"strings"
 	"unsafe"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 //@author: [piexlmax](https://github.com/piexlmax)
@@ -192,5 +194,5 @@ func JsonEncode(v interface{}) string {
 
 // 需要判断返回值，否则会出问题
 func JsonDecode(_string string, _type interface{}) error {
-	return json.Unmarshal([]byte(_string), &_type)
+	return jsoniter.Unmarshal([]byte(_string), &_type)
 }

@@ -88,7 +88,7 @@ func OrmWithCacheHandle(c *gin.Context) {
 		return
 	}
 
-	json.Unmarshal([]byte(newValue), &user)
+	jsoniter.Unmarshal([]byte(newValue), &user)
 	c.JSON(200, user)
 	return
 
