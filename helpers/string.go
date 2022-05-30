@@ -119,3 +119,42 @@ func Rtrim(str, character_mask string) string {
 
 	return strings.TrimRight(str, character_mask)
 }
+
+func Substr(str string, pos, length int) string {
+	runes := []rune(str)
+	strLn := len(runes)
+
+	// pos is too large
+	if pos >= strLn {
+		return ""
+	}
+
+	stopIdx := pos + length
+	if length == 0 || stopIdx > strLn {
+		stopIdx = strLn
+	} else if length < 0 {
+		stopIdx = strLn + length
+	}
+
+	return string(runes[pos:stopIdx])
+}
+
+func MapString(vs []string, f func(string) string) []string {
+	vsm := make([]string, len(vs))
+	for i, v := range vs {
+		vsm[i] = f(v)
+	}
+	return vsm
+}
+
+func RightPad(s string, padStr string, overallLen int) string {
+	var padCountInt = 1 + ((overallLen - len(padStr)) / len(padStr))
+	var retStr = s + strings.Repeat(padStr, padCountInt)
+	return retStr[:overallLen]
+}
+
+func LeftPad(s string, padStr string, overallLen int) string {
+	var padCountInt = 1 + ((overallLen - len(padStr)) / len(padStr))
+	var retStr = strings.Repeat(padStr, padCountInt) + s
+	return retStr[(len(retStr) - overallLen):]
+}
