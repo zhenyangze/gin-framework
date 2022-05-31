@@ -128,7 +128,7 @@ func (c *Config) GetInt64ByDefault(keyname string, value int64) int64 {
 	if configValue == 0 {
 		configValue = value
 	}
-	return value
+	return configValue
 }
 
 // float64
