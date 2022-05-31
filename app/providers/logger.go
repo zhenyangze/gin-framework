@@ -15,6 +15,12 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var DefaultLogger *logrus.Logger
+
+func InitLogger() {
+	DefaultLogger = Logger()
+}
+
 func Logger() *logrus.Logger {
 	logConfig := configs.GetLoggerConfig()
 	logFilePath := logConfig["path"].(string)
@@ -130,9 +136,9 @@ func LoggerHandler() gin.HandlerFunc {
 }
 
 func Info(args ...interface{}) {
-	Logger().Info(args)
+	DefaultLogger.Info(args)
 }
 
 func Error(args ...interface{}) {
-	Logger().Error(args)
+	DefaultLogger.Error(args)
 }

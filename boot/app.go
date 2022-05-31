@@ -63,6 +63,7 @@ func Run() {
 
 	// 初始化
 	helpers.LoadConfig()
+	providers.InitLogger()
 	providers.InitDb()
 	providers.InitEvent()
 	providers.InitRedis()
