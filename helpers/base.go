@@ -1,6 +1,10 @@
 package helpers
 
-import jsoniter "github.com/json-iterator/go"
+import (
+	"os"
+
+	jsoniter "github.com/json-iterator/go"
+)
 
 var (
 	APP_PATH    string
@@ -9,6 +13,8 @@ var (
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 func init() {
+	pwd, _ := os.Getwd()
+	APP_PATH = pwd + "/../"
 }
 
 func SetAppPath(path string) {
