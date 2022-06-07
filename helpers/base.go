@@ -14,7 +14,7 @@ var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 func init() {
 	pwd, _ := os.Getwd()
-	APP_PATH = pwd + "/../"
+	APP_PATH = pwd
 }
 
 func SetAppPath(path string) {
