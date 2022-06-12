@@ -62,3 +62,12 @@ func FilterJS(html string) string {
 	html = reg.ReplaceAllString(html, " ")
 	return html
 }
+func GetImageList(s string) []string {
+	picList := make([]string, 0)
+	re, _ := regexp.Compile(`(?im)<img[\S\s]*?src\s*=\s*["'](http[s]?:\/\/.*?)["']`)
+	output := re.FindAllStringSubmatch(s, -1)
+	for _, o := range output {
+		picList = append(picList, o[1])
+	}
+	return picList
+}

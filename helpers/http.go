@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 )
 
@@ -74,4 +76,60 @@ func Post(url string, data interface{}, contentType string) string {
 
 	result, _ := ioutil.ReadAll(resp.Body)
 	return string(result)
+}
+
+func simpleDownload(url string, localFile string) string {
+	// Get the data
+	resp, err := http.Get(url)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	// 创建一个文件用于保存
+	out, err := os.Create(localFile)
+	if err != nil {
+		panic(err)
+	}
+	defer out.Close()
+
+	// 然后将响应流和文件流对接起来
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		return ""
+	}
+	return localFile
+}
+
+func ReferDownload(url string, site string, localFile string) string {
+	client := http.Client{}
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		log.Println(err)
+		return ""
+	}
+	// 添加请求头
+	req.Header.Add("referer", site)
+	req.Header.Add("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.53")
+	// 发送请求
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("err")
+		return ""
+	}
+	defer resp.Body.Close()
+
+	// 创建一个文件用于保存
+	out, err := os.Create(localFile)
+	if err != nil {
+		return ""
+	}
+	defer out.Close()
+
+	// 然后将响应流和文件流对接起来
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		return ""
+	}
+	return localFile
 }
