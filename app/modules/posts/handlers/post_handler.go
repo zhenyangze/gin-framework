@@ -28,7 +28,7 @@ func (h *postHandler) IndexHandler(c *gin.Context) {
 	}
 
 	var query QueryStruct
-	err := c.Copy().ShouldBindQuery(&query)
+	err := c.ShouldBind(&query)
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusOK, bases.JsonError("参数错误", nil))
