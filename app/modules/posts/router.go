@@ -1,10 +1,20 @@
 package posts
 
-import "github.com/gin-gonic/gin"
+import (
+	"gitee.com/zhenyangze/gin-framework/app/modules/posts/handlers"
+	"github.com/gin-gonic/gin"
+)
 
 func Router(router *gin.Engine) {
 	post := router.Group("/api/v1/post")
 	{
-		post.GET("/", handlers.IndexHandler)
+		post.GET("/{id}", handlers.PostHandler.ShowHandler)
+		post.POST("/{id}", handlers.PostHandler.UpdateHandler)
+		post.DELETE("/{id}", handlers.PostHandler.DeleteHandler)
+		post.POST("/", handlers.PostHandler.StoreHandler)
+		post.GET("/", handlers.PostHandler.IndexHandler)
+
+		post.POST("/batch", handlers.PostHandler.UpdateBatchHandler)
+		post.PATCH("/", handlers.PostHandler.StoreBatchHandler)
 	}
 }

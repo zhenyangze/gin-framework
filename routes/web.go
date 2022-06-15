@@ -3,6 +3,7 @@ package routes
 import (
 	"gitee.com/zhenyangze/gin-framework/app/middleware"
 	"gitee.com/zhenyangze/gin-framework/app/modules/index"
+	"gitee.com/zhenyangze/gin-framework/app/modules/posts"
 	"gitee.com/zhenyangze/gin-framework/app/modules/users"
 	websocket "gitee.com/zhenyangze/gin-framework/app/modules/websockets"
 	"gitee.com/zhenyangze/gin-framework/helpers"
@@ -26,4 +27,7 @@ func Web(router *gin.Engine) {
 
 	//websocket
 	websocket.Router(router)
+
+	// posts
+	posts.Router(router)
 }
