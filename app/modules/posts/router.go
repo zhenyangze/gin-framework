@@ -8,13 +8,15 @@ import (
 func Router(router *gin.Engine) {
 	post := router.Group("/api/v1/post")
 	{
-		post.GET("/{id}", handlers.PostHandler.ShowHandler)
-		post.POST("/{id}", handlers.PostHandler.UpdateHandler)
-		post.DELETE("/{id}", handlers.PostHandler.DeleteHandler)
+
+		post.GET("/:id", handlers.PostHandler.ShowHandler)
+		post.POST("/:id", handlers.PostHandler.UpdateHandler)
+		post.DELETE("/:id", handlers.PostHandler.DeleteHandler)
+
 		post.POST("/", handlers.PostHandler.StoreHandler)
 		post.GET("/", handlers.PostHandler.IndexHandler)
 
-		post.POST("/batch", handlers.PostHandler.UpdateBatchHandler)
+		// 批量操作
 		post.PATCH("/", handlers.PostHandler.StoreBatchHandler)
 	}
 }
