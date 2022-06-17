@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 
 	"gitee.com/zhenyangze/gin-framework/app/bases"
@@ -20,30 +19,7 @@ func (h *postHandler) IndexHandler(c *gin.Context) {
 	var total int64
 	var postsList []models.Posts
 
-	type QueryStruct struct {
-		Page     int `uri:"page" form:"page" default:"1"`
-		PageSize int `uri:"page_size" form:"page_size" default:"15"`
-		Id       int `uri:"id" form:"id"`
-		Status   int `uri:"status" form:"status" default:"1"`
-	}
-
-	var query QueryStruct
-	err := c.ShouldBind(&query)
-	if err != nil {
-		log.Println(err)
-		c.JSON(http.StatusOK, bases.JsonError("参数错误", nil))
-		return
-	}
-	if query.Page < 1 {
-		query.Page = 1
-	}
-	if query.PageSize < 1 {
-		query.PageSize = 15
-	}
-	if query.PageSize > 100 {
-		query.PageSize = 100
-	}
-
+	query := bases.Page(c)
 	providers.DB.Scopes(helpers.Paginate(query.Page, query.PageSize)).Where(map[string]interface{}{
 		//"status": query.Status,
 	}).Order("id desc").Find(&postsList)
