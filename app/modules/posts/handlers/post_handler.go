@@ -8,6 +8,8 @@ import (
 	"gitee.com/zhenyangze/gin-framework/app/providers"
 	"gitee.com/zhenyangze/gin-framework/helpers"
 	"github.com/gin-gonic/gin"
+	jsoniter "github.com/json-iterator/go"
+	"gorm.io/gorm"
 )
 
 type postHandler struct{}
@@ -60,7 +62,7 @@ func (h *postHandler) StoreHandler(c *gin.Context) {
 	}
 	// 可以指定字段更新
 	providers.DB.Select("*").Create(&postModel)
-	c.JSON(http.StatusOK, bases.JsonOk("更新成功", map[string]interface{}{
+	c.JSON(http.StatusOK, bases.JsonOk("添加成功", map[string]interface{}{
 		"id": postModel.ID,
 	}))
 }
@@ -79,10 +81,60 @@ func (h *postHandler) UpdateHandler(c *gin.Context) {
 	}))
 }
 
-func (h *postHandler) StoreBatchHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, bases.JsonOk("更新成功", nil))
-}
+/**
+* func 批量更新
+* [{"op":"replace","id":12, "value":{"title":"1212112","author":"ceshi"}},{"op":"add","value":{"title":"cehshi","author":"ceshi"}},{"op":"remove","id":"1","addition":{"status":1},"value":{"name":"cehshi","title":"ceshi"}}]
+*
+* @param
+ */
+func (h *postHandler) BatchHandler(c *gin.Context) {
+	type batchItem struct {
+		Op       string                 `json:"op" form:"op"`
+		Id       string                 `json:"id" form:"id"`
+		Addition map[string]interface{} `json:"Addition" form:"addition"`
+		Value    map[string]interface{} `json:"value" form:"value"`
+	}
 
-func (h *postHandler) UpdateBatchHandler(c *gin.Context) {
+	var batchData []batchItem
+
+	if err := jsoniter.NewDecoder(c.Request.Body).Decode(&batchData); err != nil {
+		c.JSON(http.StatusOK, bases.JsonError("参数异常", err.Error()))
+		return
+	}
+
+	err := providers.DB.Transaction(func(tx *gorm.DB) error {
+		for _, v := range batchData {
+			switch v.Op {
+			case "add":
+				if err := tx.Model(&models.Posts{}).Create(v.Value).Error; err != nil {
+					return err
+				}
+			case "replace":
+				if v.Addition == nil {
+					v.Addition = make(map[string]interface{})
+				}
+				v.Addition["id"] = v.Id
+				if err := tx.Model(&models.Posts{}).Where(v.Addition).Updates(v.Value).Error; err != nil {
+					return err
+				}
+			case "remove":
+				if v.Addition == nil {
+					v.Addition = make(map[string]interface{})
+				}
+				v.Addition["id"] = v.Id
+				if err := tx.Model(&models.Posts{}).Where(v.Addition).Delete(&models.Posts{}).Error; err != nil {
+					return err
+				}
+			default:
+
+			}
+		}
+		return nil
+	})
+
+	if err != nil {
+		c.JSON(http.StatusOK, bases.JsonError("更新失败", err.Error()))
+		return
+	}
 	c.JSON(http.StatusOK, bases.JsonOk("更新成功", nil))
 }

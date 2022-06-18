@@ -17,6 +17,6 @@ func Router(router *gin.Engine) {
 		post.GET("/", handlers.PostHandler.IndexHandler)
 
 		// 批量操作
-		post.PATCH("/", handlers.PostHandler.StoreBatchHandler)
+		post.PATCH("/", handlers.PostHandler.BatchHandler)
 	}
 }
