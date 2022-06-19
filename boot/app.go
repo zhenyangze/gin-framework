@@ -9,15 +9,16 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"runtime"
 	"syscall"
 	"time"
 
+	"gitee.com/zhenyangze/gin-framework/app/bases"
 	"gitee.com/zhenyangze/gin-framework/app/providers"
 	"gitee.com/zhenyangze/gin-framework/helpers"
 	"gitee.com/zhenyangze/gin-framework/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/json-iterator/go/extra"
+	_ "go.uber.org/automaxprocs"
 )
 
 var (
@@ -26,6 +27,7 @@ var (
 	p string
 	d bool
 	c string
+	w int64
 )
 
 func init() {
@@ -35,10 +37,10 @@ func init() {
 	flag.StringVar(&p, "p", ":8080", "Port")
 	flag.BoolVar(&d, "d", false, "Debug")
 	flag.StringVar(&c, "c", "configs", "Config Path")
+	flag.Int64Var(&w, "w", 5, "Wait time")
 }
 
 func Run() {
-	var config *helpers.Config
 	flag.Parse()
 
 	if h {
@@ -47,14 +49,13 @@ func Run() {
 	}
 
 	if dirs, err := os.Getwd(); err == nil {
-		helpers.SetAppPath(dirs)
-		helpers.SetConfigPath(c)
+		bases.BasePath = dirs
+		bases.ConfigPath = c
 	} else {
 		panic("cant get the app root")
 	}
 
 	// 加载配置
-	runtime.GOMAXPROCS(runtime.NumCPU())
 	if d {
 		gin.SetMode(gin.DebugMode)
 	} else {
@@ -69,30 +70,30 @@ func Run() {
 	providers.InitRedis()
 	InitEvent()
 
-	router := gin.New()
-	//router.Use(gin.Logger())
-	router.Use(providers.LoggerHandler())
-	router.Use(gin.Recovery())
+	bases.Router = gin.New()
+	bases.Router.Use(gin.Recovery())
+	bases.Router.Use(providers.LoggerHandler())
+
 	// 添加反射，获取
 	switch t {
 	case "web":
 		providers.Event.Publish("main:init")
-		routes.Web(router)
+		routes.Web()
 	case "cron":
-		routes.Cron(router)
+		routes.Cron()
 	case "rpc":
-		routes.Rpc(router)
+		routes.Rpc()
 	case "all":
 		providers.Event.Publish("main:init")
-		routes.Web(router)
-		routes.Cron(router)
-		routes.Rpc(router)
+		routes.Web()
+		routes.Cron()
+		routes.Rpc()
 	}
 
 	//router.Run(p)
 	srv := &http.Server{
 		Addr:    p,
-		Handler: router,
+		Handler: bases.Router,
 	}
 
 	go func() {
@@ -109,8 +110,7 @@ func Run() {
 	<-quit
 	log.Println("Shutdown Server ...")
 
-	waitTimes := config.GetInt64ByDefault("app.wait_time", 5)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(waitTimes)*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(w)*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)
@@ -118,7 +118,7 @@ func Run() {
 	// catching ctx.Done(). timeout of 5 seconds.
 	select {
 	case <-ctx.Done():
-		log.Printf("timeout of %d seconds.\n", waitTimes)
+		log.Printf("timeout of %d seconds.\n", w)
 	}
 	log.Println("Server exiting")
 }

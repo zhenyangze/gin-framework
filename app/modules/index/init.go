@@ -3,14 +3,15 @@ package index
 import (
 	"time"
 
+	"gitee.com/zhenyangze/gin-framework/app/bases"
 	"gitee.com/zhenyangze/gin-framework/app/middleware"
 	"gitee.com/zhenyangze/gin-framework/app/middleware/persistence"
 	"gitee.com/zhenyangze/gin-framework/app/modules/index/handlers"
 	limit "github.com/aviddiviner/gin-limit"
-	"github.com/gin-gonic/gin"
 )
 
-func Router(router *gin.Engine) {
+func Router() {
+	router := bases.Router
 	store := &persistence.RedisStore{}
 	v1 := router.Group("/v1", limit.MaxAllowed(20))
 	{
@@ -26,5 +27,4 @@ func Router(router *gin.Engine) {
 	}
 
 	router.GET("/", handlers.MyHandle)
-
 }

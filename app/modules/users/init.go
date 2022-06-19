@@ -1,12 +1,13 @@
 package users
 
 import (
+	"gitee.com/zhenyangze/gin-framework/app/bases"
 	"gitee.com/zhenyangze/gin-framework/app/middleware"
 	"gitee.com/zhenyangze/gin-framework/app/modules/users/handlers"
-	"github.com/gin-gonic/gin"
 )
 
-func Router(router *gin.Engine) {
+func Router() {
+	router := bases.Router
 	// auth
 	authMiddleware := middleware.AuthMiddleware
 

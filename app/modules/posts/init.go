@@ -1,11 +1,12 @@
 package posts
 
 import (
+	"gitee.com/zhenyangze/gin-framework/app/bases"
 	"gitee.com/zhenyangze/gin-framework/app/modules/posts/handlers"
-	"github.com/gin-gonic/gin"
 )
 
-func Router(router *gin.Engine) {
+func Router() {
+	router := bases.Router
 	post := router.Group("/api/v1/post")
 	{
 

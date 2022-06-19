@@ -1,4 +1,3 @@
-// Package helpers provides ...
 package helpers
 
 import (
@@ -6,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"gitee.com/zhenyangze/gin-framework/app/bases"
 	"github.com/spf13/viper"
 )
 
@@ -23,7 +23,7 @@ func LoadConfig() {
 		if configList == nil {
 			configList = make(map[string]*viper.Viper)
 		}
-		configPath := GetConfigPath()
+		configPath := bases.ConfigPath
 		fileList, err := Glob(configPath+"/*.toml", true)
 		if err != nil {
 			return
