@@ -2,6 +2,7 @@ package posts
 
 import (
 	"gitee.com/zhenyangze/gin-framework/app/bases"
+	"gitee.com/zhenyangze/gin-framework/app/modules/posts/events"
 	"gitee.com/zhenyangze/gin-framework/app/modules/posts/handlers"
 )
 
@@ -20,4 +21,6 @@ func Router() {
 		// 批量操作
 		post.PATCH("/", handlers.PostHandler.BatchHandler)
 	}
+
+	events.IntEvent()
 }
