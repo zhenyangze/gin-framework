@@ -39,6 +39,10 @@ func (h *postHandler) ShowHandler(c *gin.Context) {
 	id := c.Param("id")
 	var postModel models.Posts
 	providers.DB.First(&postModel, id)
+	if postModel.ID == 0 {
+		c.JSON(http.StatusOK, bases.JsonError("获取失败", nil))
+		return
+	}
 	c.JSON(http.StatusOK, bases.JsonOk("获取成功", postModel))
 }
 
@@ -62,6 +66,10 @@ func (h *postHandler) StoreHandler(c *gin.Context) {
 	}
 	// 可以指定字段更新
 	providers.DB.Select("*").Create(&postModel)
+	if postModel.ID == 0 {
+		c.JSON(http.StatusOK, bases.JsonError("添加失败", nil))
+		return
+	}
 	c.JSON(http.StatusOK, bases.JsonOk("添加成功", map[string]interface{}{
 		"id": postModel.ID,
 	}))
