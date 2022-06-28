@@ -14,9 +14,9 @@ func Json(errorCode int64, errorMsg string, data interface{}) gin.H {
 		data = make(map[string]interface{})
 	}
 	return gin.H{
-		"error_code": errorCode,
-		"error_msg":  errorMsg,
-		"data":       data,
+		"code": errorCode,
+		"msg":  errorMsg,
+		"data": data,
 	}
 }
 func JsonError(errorMsg string, data interface{}) gin.H {
