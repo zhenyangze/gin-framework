@@ -6,7 +6,7 @@ import (
 	"gitee.com/zhenyangze/gin-framework/app/modules/users/handlers"
 )
 
-func Router() {
+func Initer() {
 	router := bases.Router
 	// auth
 	authMiddleware := middleware.AuthMiddleware

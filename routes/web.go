@@ -19,14 +19,14 @@ func Web() {
 	}
 
 	//service router
-	index.Router()
+	index.Initer()
 
 	//users
-	users.Router()
+	users.Initer()
 
 	//websocket
-	websocket.Router()
+	websocket.Initer()
 
 	// posts
-	posts.Router()
+	posts.Initer()
 }

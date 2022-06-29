@@ -5,7 +5,7 @@ import (
 	"gitee.com/zhenyangze/gin-framework/app/modules/websockets/handlers"
 )
 
-func Router() {
+func Initer() {
 	router := bases.Router
 	router.GET("/ws", handlers.WebSocketHandle)
 }

@@ -10,7 +10,7 @@ import (
 	limit "github.com/aviddiviner/gin-limit"
 )
 
-func Router() {
+func Initer() {
 	router := bases.Router
 	store := &persistence.RedisStore{}
 	v1 := router.Group("/v1", limit.MaxAllowed(20))

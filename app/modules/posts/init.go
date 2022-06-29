@@ -6,7 +6,7 @@ import (
 	"gitee.com/zhenyangze/gin-framework/app/modules/posts/handlers"
 )
 
-func Router() {
+func Initer() {
 	router := bases.Router
 	post := router.Group("/api/v1/post")
 	{
