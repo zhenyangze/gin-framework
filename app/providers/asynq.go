@@ -29,13 +29,13 @@ func InitAsynq() {
 	}
 }
 
-func AddNq(event string, times time.Duration, playload []byte, opts ...asynq.Option) {
+func AddNq(event string, times time.Duration, playload []byte, opts ...asynq.Option) error {
 	t := asynq.NewTask(event, playload, opts...)
 	_, err := nqClient.Enqueue(t, asynq.ProcessIn(times))
 	if err != nil {
-		log.Fatal(err)
-		return
+		return err
 	}
+	return nil
 }
 
 func handler(ctx context.Context, t *asynq.Task) error {
