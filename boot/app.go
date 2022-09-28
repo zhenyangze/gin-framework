@@ -67,6 +67,7 @@ func Run() {
 	providers.InitDb()
 	providers.InitEvent()
 	providers.InitRedis()
+	providers.InitPool()
 	InitEvent()
 
 	router := gin.New()

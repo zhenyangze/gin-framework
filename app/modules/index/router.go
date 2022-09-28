@@ -23,6 +23,7 @@ func Router(router *gin.Engine) {
 		v1.GET("/orm", handlers.OrmHandle)
 		v1.GET("/redis", handlers.RedisHandle)
 		v1.GET("/md5/:str", handlers.Md5Handle)
+		v1.GET("/pool", handlers.PoolHandle)
 	}
 
 	router.GET("/", handlers.MyHandle)

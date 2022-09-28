@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -111,4 +112,17 @@ func RedisHandle(c *gin.Context) {
 		//fmt.Println(str3)
 	}
 	c.JSON(200, str2)
+}
+
+func PoolHandle(c *gin.Context) {
+	for i := 0; i < 100; i++ {
+		newFunc := func(i int) func() {
+			return func() {
+				time.Sleep(time.Second)
+				fmt.Println(i)
+			}
+		}(i)
+		providers.Pool.Submit(newFunc)
+	}
+	c.JSON(200, "")
 }
